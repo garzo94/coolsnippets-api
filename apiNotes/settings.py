@@ -37,7 +37,30 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'anymail',
+    'users',
+    'codify',
+    'rest_framework.authtoken',
+    'djoser',
 ]
+
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'alexgarzo25@gmail.com'
+EMAIL_HOST_PASSWORD = 'vuiwtsttnvbblfsb'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+
+DJOSER ={
+    "PASSWORD_RESET_CONFIRM_URL":"auth/password-reset/confirm/{uid}/{token}",
+
+    "PASSWORD_RESET_CONFIRM_RETYPE": True
+}
+
+AUTH_USER_MODEL = 'users.CustomUser'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -48,6 +71,11 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+REST_FRAMEWORK ={
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+       'rest_framework.authentication.TokenAuthentication',)
+}
 
 ROOT_URLCONF = 'apiNotes.urls'
 
