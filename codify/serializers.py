@@ -5,19 +5,49 @@ from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnl
 class SubtopicSerializer(serializers.ModelSerializer):
     class Meta:
         model =  Subtopic
-        fields = "__all__"
+        fields = ['id', 'name']
 
 class TopicSerializer(serializers.ModelSerializer):
     subtopics = SubtopicSerializer(many=True, read_only=True)
     class Meta:
         model =  Topic
-        fields = ['id', 'name','subtopics']
+        fields = ['id', 'name', 'subtopics']
         read_only_fields = ['id']
 
 class LanguageSerializer(serializers.ModelSerializer):
-    topics = TopicSerializer(many=True, read_only=True)
+    topic = TopicSerializer(many=True, read_only=True)
     class Meta:
         model = Language
-        fields = ['id','name','topics']
+        fields = ['id','name','topic']
         read_only_fields = ['id']
+
+
+
+class SnippedSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Snipped
+        exclude = ['user']
+        depth =1
+
+class SnippedSerializerPost(serializers.ModelSerializer):
+
+    class Meta:
+        model = Snipped
+        exclude = ['user','language','topic','subtopic']
+
+class TwitterSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Twitter
+        exclude = ['user']
+
+
+    # def create(self, validated_data):
+
+    #     language = validated_data.pop('name')
+    #     print(language, 'languageeee')
+    #     print(validated_data, 'validate_dataaaaaa')
+
+
 

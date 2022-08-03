@@ -15,10 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from users.urls import urlpatterns as users_urlpatterns
+from django.conf.urls.static import static
+from django.conf import settings
 import codify
+import users
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('app/', include('codify.urls'))
-]
-urlpatterns += users_urlpatterns
+    path('api/', include('codify.urls')),
+    path('',include('users.urls'))
+]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
