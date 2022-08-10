@@ -29,24 +29,25 @@ class Topic(models.Model):
 
 class Subtopic(models.Model):
      name = models.CharField(max_length=100)
-     topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name='subtopics')
+     topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name='subtopics', null=True)
 
 class Snipped(models.Model):
-    title = models.CharField(max_length=200, blank=True)
-    text = models.CharField(max_length=300, blank=True)
-    description = models.CharField(max_length=50)
+    title = models.CharField(max_length=200, blank=True, null=True)
+    xtitle =models.DecimalField(max_digits=5, decimal_places=2,blank=True, null=True)
+    ytitle =models.DecimalField(max_digits=5, decimal_places=2,blank=True,null=True)
+    text = models.CharField(max_length=300, blank=True, null=True)
+    xtext =models.DecimalField(max_digits=5, decimal_places=2,blank=True,null=True)
+    ytext =models.DecimalField(max_digits=5, decimal_places=2,blank=True,null=True)
     background = models.IntegerField(default=0)
+    code = models.TextField(null=True, blank=True)
     image = models.ImageField(upload_to=user_directory_path, default='snippets/default.jpg')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     language = models.ForeignKey(Language, on_delete=models.CASCADE)
-    topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
-    subtopic = models.ForeignKey(Subtopic, on_delete=models.CASCADE)
-    twitter = models.BooleanField(default=False)
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE, null=True, blank=True)
+    subtopic = models.ForeignKey(Subtopic, on_delete=models.CASCADE,null=True, blank=True)
+    twitter = models.CharField(max_length=100,default="",null=True, blank=True)
 
 
 
-class Twitter(models.Model):
-    username = models.CharField(max_length=100)#username
-    alias = models.TextField(max_length=50)
-    image = models.CharField(max_length=50)
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+
