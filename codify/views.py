@@ -9,6 +9,7 @@ from rest_framework import  permissions, status
 from rest_framework.views import APIView
 from codify.permissions import IsOwnerPermissions
 from django.shortcuts import get_object_or_404
+from rest_framework.pagination import PageNumberPagination
 
 
 ###### Get and Post programing Language #######
@@ -85,7 +86,7 @@ def subtopic(request,pkLanguage, pkTopic):
 
 ### read snippets ###
 
-class SnippetRead(APIView):
+class SnippetRead(APIView,PageNumberPagination):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, pkLanguage=None, pkTopic=None, pkSubtopic=None):
@@ -95,24 +96,29 @@ class SnippetRead(APIView):
             top = Topic.objects.get(language=lang, pk=pkTopic)
             sub = Subtopic.objects.get(topic=top,pk=pkSubtopic)
             snippets = Snipped.objects.filter(user=request.user.id, language=lang, topic=top, subtopic=sub)#.id if error  'id' expected a number but got <django.contrib.auth.models.AnonymousUser object at 0x048C7E90>
-            serializer = SnippedSerializer(snippets, many=True)
+            results = self.paginate_queryset(snippets,request,view=self)
+            serializer = SnippedSerializer(results, many=True)
             return Response(serializer.data)
 
         if pkTopic is not None:
             lang = Language.objects.get(user=request.user, pk=pkLanguage)
             top = Topic.objects.get(language=lang, pk=pkTopic)
             snippets = Snipped.objects.filter(user=request.user.id, language=lang, topic=top)#.id if error  'id' expected a number but got <django.contrib.auth.models.AnonymousUser object at 0x048C7E90>
-            serializer = SnippedSerializer(snippets, many=True)
+            results = self.paginate_queryset(snippets,request,view=self)
+            serializer = SnippedSerializer(results, many=True)
             return Response(serializer.data)
 
         if pkLanguage == 'all':
+            print('heeeeeeey')
             snippets = Snipped.objects.filter(user=request.user.id)#.id if error  'id' expected a number but got <django.contrib.auth.models.AnonymousUser object at 0x048C7E90>
-            serializer = SnippedSerializer(snippets, many=True)
-            return Response(serializer.data)
+            results = self.paginate_queryset(snippets,request,view=self)
+            serializer = SnippedSerializer(results, many=True)
+            return self.get_paginated_response(serializer.data)
         elif pkLanguage != 'all':
             lang = Language.objects.get(user=request.user, pk=pkLanguage)
             snippets = Snipped.objects.filter(user=request.user.id, language=lang)#.id if error  'id' expected a number but got <django.contrib.auth.models.AnonymousUser object at 0x048C7E90>
-            serializer = SnippedSerializer(snippets, many=True)
+            results = self.paginate_queryset(snippets,request,view=self)
+            serializer = SnippedSerializer(results, many=True)
             return Response(serializer.data)
 
 
@@ -120,21 +126,25 @@ class SnippetRead(APIView):
 ### create snippets ###
 class SnippetPost(APIView):
     permission_classes = [permissions.IsAuthenticated]
+
     def post(self, request, pkLanguage, pkTopic=None, pkSubtopic=None):
 
         serializer = SnippedSerializerPost(data=request.data)
         language = Language.objects.get(user= request.user, id = pkLanguage) # to do this I have to check my models fields
 
+
+        if pkSubtopic is not None:
+            topic = Topic.objects.get(language=language, id=pkTopic)
+            subtopic = Subtopic.objects.get(topic=topic, id=pkSubtopic)
+            if serializer.is_valid():
+                serializer.save(user = request.user, language =language, topic=topic, subtopic=subtopic)
+                return Response(serializer.data)
         if pkTopic is not None:
             topic = Topic.objects.get(language=language, id=pkTopic)
             if serializer.is_valid():
                 serializer.save(user = request.user, language =language, topic=topic,)
                 return Response(serializer.data)
-        if pkSubtopic is not None:
-            subtopic = Subtopic.objects.get(topic=topic, id=pkSubtopic)
-            if serializer.is_valid():
-                serializer.save(user = request.user, language =language, topic=topic, subtopic=subtopic)
-                return Response(serializer.data)
+
 
         elif serializer.is_valid():
             print(request.data,'mi dataaaaa')
@@ -144,6 +154,7 @@ class SnippetPost(APIView):
             print(serializer, 'serializeeeer')
             print(serializer.errors)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class SnippetUpdateDelete(APIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -199,7 +210,7 @@ class GetLanguages(APIView):
     permission_classes = [permissions.IsAuthenticated]
     def get(self,request):
 
-            languages = Language.objects.all()
+            languages = Language.objects.filter(user=request.user)
             serializer = GetLanguagesSerializer(languages, many=True)
 
 
