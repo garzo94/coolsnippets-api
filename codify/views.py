@@ -158,15 +158,45 @@ class SnippetPost(APIView):
 
 class SnippetUpdateDelete(APIView):
     permission_classes = [permissions.IsAuthenticated]
-    def put(self, request,pk):
+    def put(self, request,pk,pkLang=None,pkTop=None,pkSubt=None):
         snippet = Snipped.objects.get(pk=pk, user=request.user)
-        serializer = SnippedSerializer(snippet,data=request.data,partial=True)
 
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        else:
-            return Response(serializer.errors)
+        if pkLang is not None and pkTop is not None and pkSubt is not None:
+            language = Language.objects.get(pk=pkLang, user=request.user)
+            topic = Topic.objects.get(pk=pkTop, language=language)
+            subtopic = Subtopic.objects.get(pk=pkSubt, subtopic=subtopic)
+
+            serializer = SnippedSerializer(snippet,data=request.data, language=language, topic=topic, subtopic=subtopic, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            else:
+                return Response(serializer.errors)
+
+        if pkLang is not None and pkTop is not None:
+            language = Language.objects.get(pk=pkLang, user=request.user)
+            topic = Topic.objects.get(pk=pkTop, language=language)
+
+            serializer = SnippedSerializer(snippet,data=request.data, language=language, topic=topic,partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            else:
+                return Response(serializer.errors)
+
+        if pkLang is not None:
+            language = Language.objects.get(pk=pkLang, user=request.user)
+            serializer = SnippedSerializer(snippet,data=request.data,partial=True)
+            if serializer.is_valid():
+                serializer.save(language=language)
+                return Response(serializer.data)
+            else:
+                return Response(serializer.errors)
+
+
+
+
+
     def delete(self, request, pk):
         snippet = Snipped.objects.filter(pk=pk, user=request.user)
         if snippet.exists():
@@ -175,36 +205,6 @@ class SnippetUpdateDelete(APIView):
         else:
             return Response({'status':'Snippet does not exists.'})
 
-
-# class TwitterData(APIView):
-#      permission_classes = [permissions.IsAuthenticated]
-#      def get(self,request):
-#         try:
-#          twitter = Twitter.objects.get(user=request.user)
-#          serializer = TwitterSerializer(twitter)
-#          return Response(serializer.data)
-#         except:
-#             return Response(status.HTTP_404_NOT_FOUND)
-
-#      def post(self, request):
-#         data = request.data
-
-#         serializer = TwitterSerializer(data=request.data)
-
-#         if serializer.is_valid():
-#             serializer.save(user = request.user)
-#             return Response(serializer.data)
-#         else:
-#             return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
-#      def put(self, request):
-#         twitter = Twitter.objects.get(user=request.user)
-#         serializer = TwitterSerializer(twitter,data=request.data,partial=True)
-
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data)
-#         else:
-#             return Response(serializer.errors)
 
 class GetLanguages(APIView):
     permission_classes = [permissions.IsAuthenticated]

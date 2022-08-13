@@ -19,11 +19,15 @@ urlpatterns=[
     path('get-subtopics/<str:language>/<str:topic>/', GetSubtopics.as_view(), name='subtopic-get'),
     #### get one Snipet
     path('get-snippet/<int:pk>/', GetSnnipet.as_view(), name='subtopic-get'),
-    #### create-delete-update Snipeet
+    #### create-Snipeet
     path('snippet/<int:pkLanguage>/<int:pkTopic>/<int:pkSubtopic>/', SnippetPost.as_view(), name='snippet-create'),
     path('snippet/<int:pkLanguage>/<int:pkTopic>/', SnippetPost.as_view(), name='snippet-create'),
     path('snippet/<int:pkLanguage>/', SnippetPost.as_view(), name='snippet-create'),
+    ### Update-delete
     path('snippet-updatedelete/<int:pk>/', SnippetUpdateDelete.as_view(), name='snippet-delete-update'),
+    path('snippet-updatedelete/<int:pk>/<int:pkLang>/', SnippetUpdateDelete.as_view(), name='snippet-delete-update'),
+    path('snippet-updatedelete/<int:pk>/<int:pkLang>/<int:pkTop>', SnippetUpdateDelete.as_view(), name='snippet-delete-update'),
+    path('snippet-updatedelete/<int:pk>/<int:pkLang>/<int:pkTop>/<int:pkSubt>/', SnippetUpdateDelete.as_view(), name='snippet-delete-update'),
     ### get languages
     path('get-languages/', GetLanguages.as_view(), name='get-languages'),
     #### get twitter-data

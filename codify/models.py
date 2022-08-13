@@ -33,11 +33,11 @@ class Subtopic(models.Model):
 
 class Snipped(models.Model):
     title = models.CharField(max_length=200, blank=True, null=True)
-    xtitle =models.DecimalField(max_digits=5, decimal_places=2,blank=True, null=True)
-    ytitle =models.DecimalField(max_digits=5, decimal_places=2,blank=True,null=True)
+    xtitle =models.DecimalField(max_digits=8, decimal_places=5,blank=True, null=True)
+    ytitle =models.DecimalField(max_digits=8, decimal_places=5,blank=True,null=True)
     text = models.CharField(max_length=300, blank=True, null=True)
-    xtext =models.DecimalField(max_digits=5, decimal_places=2,blank=True,null=True)
-    ytext =models.DecimalField(max_digits=5, decimal_places=2,blank=True,null=True)
+    xtext =models.DecimalField(max_digits=8, decimal_places=5,blank=True,null=True)
+    ytext =models.DecimalField(max_digits=8, decimal_places=5,blank=True,null=True)
     background = models.IntegerField(default=0)
     code = models.TextField(null=True, blank=True)
     image = models.ImageField(upload_to=user_directory_path, default='snippets/default.jpg')
