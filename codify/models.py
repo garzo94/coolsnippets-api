@@ -20,7 +20,6 @@ class Language(models.Model):
         return self.topic_set.all()
 
 class Topic(models.Model):
-
     name = models.CharField(max_length=100)
     language = models.ForeignKey(
         Language,
