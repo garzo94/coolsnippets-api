@@ -209,7 +209,6 @@ class SnippetUpdateDelete(APIView):
 class GetLanguages(APIView):
     permission_classes = [permissions.IsAuthenticated]
     def get(self,request):
-
             languages = Language.objects.filter(user=request.user)
             serializer = GetLanguagesSerializer(languages, many=True)
 
@@ -218,7 +217,6 @@ class GetLanguages(APIView):
 class GetSubtopics(APIView):
     permission_classes = [permissions.IsAuthenticated]
     def get(self,request,language,topic):
-
             language = Language.objects.get(user=request.user.id, id=language)
             topic = Topic.objects.get(language=language,id=topic)
             subtopic = Subtopic.objects.filter(topic=topic)
