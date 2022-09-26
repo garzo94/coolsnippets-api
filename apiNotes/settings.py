@@ -29,7 +29,7 @@ SECRET_KEY = 'sdfsdfsdf'
 # DEBUG = os.environ.get('DEBUG', default=False,)
 DEBUG = False
 
-ALLOWED_HOSTS = ['coolsnippets-app-env.us-east-1.elasticbeanstalk.com']
+ALLOWED_HOSTS = ['coolsnippets-app-env.us-east-1.elasticbeanstalk.com','172.31.94.57','awseb-awseb-n8qjkp8nxn9f-1035764901.us-east-1.elb.amazonaws.com']
 
 
 # Application definition
