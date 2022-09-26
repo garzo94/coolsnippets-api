@@ -29,7 +29,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # DEBUG = os.environ.get('DEBUG', default=False,)
 DEBUG = os.getenv('DEBUG')
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['coolsnippets-app-env.us-east-1.elasticbeanstalk.com']
 
 
 # Application definition
