@@ -27,7 +27,7 @@ SECRET_KEY = 'sdfsdfsdf'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = os.environ.get('DEBUG', default=False,)
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['coolsnippets-app-env.us-east-1.elasticbeanstalk.com']
 
