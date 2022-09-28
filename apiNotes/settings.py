@@ -27,9 +27,9 @@ SECRET_KEY = 'sdfsdfsdf'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = os.environ.get('DEBUG', default=False,)
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['coolsnippets-app-env.us-east-1.elasticbeanstalk.com','172.31.94.57','awseb-awseb-n8qjkp8nxn9f-1035764901.us-east-1.elb.amazonaws.com','3.233.164.166','localhost','3.233.164.166','54.236.79.111']
+ALLOWED_HOSTS = ['http://coolsnippets-dev.us-west-2.elasticbeanstalk.com','172.31.94.57','awseb-awseb-n8qjkp8nxn9f-1035764901.us-east-1.elb.amazonaws.com','3.233.164.166','localhost','3.233.164.166','54.236.79.111']
 
 
 # Application definition
