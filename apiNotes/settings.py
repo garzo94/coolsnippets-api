@@ -116,25 +116,25 @@ WSGI_APPLICATION = 'apiNotes.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": 'django.db.backends.postgresql',
-#         "NAME": config("name"),
-#         "USER": config("user"),
-#         "PASSWORD": config("pass"),
-#         "HOST": config( "host"),
-#         "PORT":5432
-#     }
-# }
-
-
-
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+        "ENGINE": 'django.db.backends.postgresql',
+        "NAME": "railway",
+        "USER": "postgres",
+        "PASSWORD": "gMClPPN7dSh7INsEEPSv",
+        "HOST": "containers-us-west-46.railway.app",
+        "PORT":'6161'
     }
 }
+
+
+
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+#     }
+# }
 
 
 
