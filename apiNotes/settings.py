@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import os
+import dj_database_url
 
 # from decouple import config
 
@@ -29,8 +30,10 @@ SECRET_KEY = 'sdfsdfsdf'
 # DEBUG = os.environ.get('DEBUG', default=False,)
 DEBUG = True
 
-ALLOWED_HOSTS = ['coolsnippets-dev.us-west-2.elasticbeanstalk.com','coolsnippets.ga','172.31.94.57','awseb-awseb-n8qjkp8nxn9f-1035764901.us-east-1.elb.amazonaws.com','3.233.164.166','localhost','3.233.164.166','54.236.79.111']
-
+ALLOWED_HOSTS = []
+RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
 # Application definition
 
@@ -127,15 +130,11 @@ WSGI_APPLICATION = 'apiNotes.wsgi.application'
 
 
 DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'coolSnippets',
-            'USER': 'postgres',
-            'PASSWORD': 'complexpassword123',
-            'HOST': 'localhost',
-            'PORT': '5432',
-        }
-    }
+    'default': dj_database_url.config(
+        default='postgresql://postgres:postgres@localhost:5432/mysite',
+        conn_max_age=600
+    )
+}
 
 
 # Password validation
