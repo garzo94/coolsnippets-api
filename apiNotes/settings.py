@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'djoser',
     'storages',
     "corsheaders",
+
 ]
 
 
@@ -123,19 +124,9 @@ WSGI_APPLICATION = 'apiNotes.wsgi.application'
 #     }
 # }
 
-if 'RDS_DB_NAME' in os.environ:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': os.environ['RDS_DB_NAME'],
-            'USER': os.environ['RDS_USERNAME'],
-            'PASSWORD': os.environ['RDS_PASSWORD'],
-            'HOST': os.environ['RDS_HOSTNAME'],
-            'PORT': os.environ['RDS_PORT'],
-        }
-    }
-else:
-    DATABASES = {
+
+
+DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
             'NAME': 'coolSnippets',
@@ -187,18 +178,16 @@ STATIC_ROOT=os.path.join(BASE_DIR, 'static')
 MEDIA_URL = '/media/'
 MEDIA_ROOT=os.path.join(BASE_DIR, 'media')
 
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
-if 'AWS_STORAGE_BUCKET_NAME' in os.environ:
-    STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-
-    AWS_STORAGE_BUCKET_NAME = os.environ['AWS_STORAGE_BUCKET_NAME']
-    AWS_S3_REGION_NAME = os.environ['AWS_S3_REGION_NAME']
-
-    AWS_S3_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
-    AWS_S3_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
-
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_ACCESS_KEY_ID = 'AKIAT2DPK7XM3HP27QX3'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'api-cool-snippets'
+AWS_QUERYSTRING_AUTH = False
+AWS_S3_FILE_OVERWRITE = False
