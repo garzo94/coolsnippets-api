@@ -52,11 +52,6 @@ INSTALLED_APPS = [
 
 ]
 
-
-
-
-
-
 DJOSER ={
     "PASSWORD_RESET_CONFIRM_URL":"auth/password-reset/confirm/{uid}/{token}",
 
@@ -121,11 +116,13 @@ DATABASES = {
         "ENGINE": 'django.db.backends.postgresql',
         "NAME": "railway",
         "USER": "postgres",
-        "PASSWORD": "gMClPPN7dSh7INsEEPSv",
+        "PASSWORD": "UrKUb6l32MzqLs29ZTFK",
         "HOST": "containers-us-west-46.railway.app",
         "PORT":'6161'
     }
 }
+
+CSRF_TRUSTED_ORIGINS = ['https://web-production-9e25.up.railway.app']
 
 
 
